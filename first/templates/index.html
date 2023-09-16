@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Weather</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <style>
+        h1 {
+            font-size: 32px;
+        }
+
+        h3 {
+            font-size: 24px;
+        }
+
+        h5 {
+            font-size: 16px;
+        }
+
+        .weather-info {
+            margin: 10px;
+            padding: 10px;
+            background-color: lightblue;
+        }
+
+        .weather-info i {
+            font-size: 24px;
+        }
+
+        .weather-condition {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .weather-condition img {
+            max-width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="row" style="background: green; color: white;">
+        <h1 class="col-md-3 text-center">Weather</h1>
+    </nav>
+    <br />
+    <br />
+    <center class="row">
+        <form method="post" class="col-md-6 col-md-offset-3">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" class="form-control" name="city" placeholder="Search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </center>
+    <div class="row">
+        {% if country_code and coordinate and temp and pressure and humidity %}
+        <div class="col-md-6 col-md-offset-3 weather-info">
+            <h3>Country Code: {{ country_code }}</h3>
+            <i class="glyphicon glyphicon-globe"></i>
+            <h5>Coordinate: {{ coordinate }}</h5>
+            <i class="glyphicon glyphicon-map-marker"></i>
+            <h5>Temperature: {{ temp }}</h5>
+            <i class="glyphicon glyphicon-thermometer-4"></i>
+            <h5>Pressure: {{ pressure }}</h5>
+            <i class="glyphicon glyphicon-sort-by-attributes-alt"></i>
+            <h5>Humidity: {{ humidity }}</h5>
+            <i class="glyphicon glyphicon-tint"></i>
+        </div>
+        <div class="col-md-6 col-md-offset-3 weather-condition">
+            <img src="{% if weather_condition == 'Rain' %}rain.png{% elif weather_condition == 'Haze' %}haze.png{% elif weather_condition == 'Hot' %}hot.png{% else %}default.png{% endif %}" alt="{{ weather_condition }}">
+            <h3>{{ weather_condition }}</h3>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
